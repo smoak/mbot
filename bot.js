@@ -54,7 +54,16 @@ client.addListener('message', function (from, to, message) {
       if (message.match(/whats playing/)) {
         mpd.send('currentsong', function(cs) {
           client.say(target, cs.Artist + " - " + cs.Title);
-          console.log("Got current song info: " + cs);
+        });
+      }
+      if (message.match(/who are you/)) {
+        client.say("I am an MPD music bot that displays the currently playing song. Try asking me whats playing.");
+      }
+      if (message.match(/next/)) {
+        mpd.send('next', function() {
+          mpd.send('currentsong', function(cs) {
+            client.say(target, cs.Artist + " - " + cs.Title);
+          });
         });
       }
     }
